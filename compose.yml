@@ -1,0 +1,6 @@
+services:
+  app:
+    build: .
+    volumes:
+      - ./config.yml:/app/config.yml
+      - /var/run/docker.sock:/var/run/docker.sock

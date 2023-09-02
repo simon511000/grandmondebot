@@ -1,0 +1,7 @@
+token: ODgxNDUyMTEzMDgxODE1MTEx.GNDG_i.BPvjFtx1gYVgmw9smt7uzNWuJFqWKMpExkR_3E
+
+server:
+  container: grandmonde
+  host: 192.168.1.32
+  query_port: 25565
+  rcon_port: 25575
