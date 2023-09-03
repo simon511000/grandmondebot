@@ -5,3 +5,4 @@ server:
   host: localhost
   query_port: 25565
   rcon_port: 25575
+  rcon_password: XXXXXXXXX

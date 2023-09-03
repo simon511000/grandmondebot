@@ -1,6 +1,8 @@
-use config::CONFIG;
+use config::Config;
 use poise::serenity_prelude as serenity;
+use server::Server;
 use std::io::Result;
+use tokio::sync::Mutex;
 
 mod commands;
 mod config;
@@ -8,12 +10,18 @@ mod server;
 
 // Types used by all command functions
 type Error = Box<dyn std::error::Error + Send + Sync>;
-type Context<'a> = poise::Context<'a, (), Error>;
+type Context<'a> = poise::Context<'a, Data, Error>;
+
+pub struct Data {
+    server: Mutex<Server>,
+}
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    let config = Config::new().unwrap();
+
     poise::Framework::builder()
-        .token(&CONFIG.token)
+        .token(&config.token)
         .options(poise::FrameworkOptions {
             commands: vec![
                 commands::start::start(), // miaou
@@ -21,14 +29,16 @@ async fn main() -> Result<()> {
             ],
             ..Default::default()
         })
-        .setup(move |ctx, _ready, framework| {
+        .setup(move |ctx, ready, framework| {
             Box::pin(async move {
                 println!(
                     "Connecté aux serveurs Discord en tant que {}!",
-                    _ready.user.name
+                    ready.user.name
                 );
                 poise::builtins::register_globally(ctx, &framework.options().commands).await?;
-                Ok(())
+                Ok(Data {
+                    server: Mutex::new(Server::new(&config.server).await.unwrap()),
+                })
             })
         })
         .intents(serenity::GatewayIntents::privileged() | serenity::GatewayIntents::GUILDS)

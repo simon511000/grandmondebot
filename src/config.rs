@@ -1,17 +1,20 @@
 use config::Config as ConfigConfig;
 use config::ConfigError;
-use once_cell::sync::Lazy;
 use serde::Deserialize;
 
-use crate::server::Server;
-
-// Global Config
-pub static CONFIG: Lazy<Config> = Lazy::new(|| Config::new().unwrap());
+#[derive(Debug, Deserialize, Clone)]
+pub struct ServerConfig {
+    pub container: String,
+    pub host: String,
+    pub query_port: u16,
+    pub rcon_port: u16,
+    pub rcon_password: String,
+}
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
     pub token: String,
-    pub server: Server,
+    pub server: ServerConfig,
 }
 
 impl Config {
