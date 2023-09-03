@@ -8,11 +8,11 @@ COPY ./Cargo.toml ./Cargo.lock /app/grandmondebot/
 
 WORKDIR /app/grandmondebot
 
-RUN --mount=type=cache,sharing=locked,target=/usr/local/cargo/registry cargo build --release
+RUN --mount=type=cache,target=/usr/local/cargo/registry cargo build --release
 
 COPY . .
 
-RUN --mount=type=cache,sharing=locked,target=/usr/local/cargo/registry cargo build --release
+RUN --mount=type=cache,target=/usr/local/cargo/registry cargo build --release
 
 # ========= Stage 2: Production ========= #
 FROM alpine as production
