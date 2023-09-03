@@ -24,7 +24,8 @@ async fn main() -> Result<()> {
         .token(&config.token)
         .options(poise::FrameworkOptions {
             commands: vec![
-                commands::start::start(), // miaou
+                commands::start::start(),
+                commands::stop::stop(),
                 commands::reload_config::reload_config(),
             ],
             ..Default::default()

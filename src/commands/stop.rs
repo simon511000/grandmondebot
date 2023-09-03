@@ -2,7 +2,7 @@ use crate::{Context, Error};
 
 /// Arrêter le serveur minecraft
 #[poise::command(slash_command)]
-pub async fn start(ctx: Context<'_>) -> Result<(), Error> {
+pub async fn stop(ctx: Context<'_>) -> Result<(), Error> {
     let mut server = ctx.data().server.lock().await;
 
     if let Ok(nb_players) = server.nb_players().await {
