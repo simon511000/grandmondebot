@@ -42,7 +42,7 @@ async fn main() -> Result<()> {
                     "Connecté aux serveurs Discord en tant que {}!",
                     ready.user.name
                 );
-                ctx.set_activity(Activity::playing("GrandMonde")).await;
+                ctx.set_activity(Activity::playing("Grand Monde")).await;
                 poise::builtins::register_globally(ctx, &framework.options().commands).await?;
 
                 tokio::spawn(async move {
@@ -65,6 +65,9 @@ async fn main() -> Result<()> {
                             if last_player_connected.elapsed().unwrap() >= Duration::from_secs(300) {
                                 let _ = server.stop().await;
                             }
+                        } else {
+                            // Si le serveur est éteint, on redémarre le compteur
+                            last_player_connected = SystemTime::now();
                         }
                     }
                 });
