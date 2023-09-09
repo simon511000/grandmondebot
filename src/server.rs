@@ -8,19 +8,13 @@ use crate::config::ServerConfig;
 #[derive(Debug)]
 pub struct Server {
     config: ServerConfig,
-
-    client: RconClient,
 }
 
 impl Server {
-    pub async fn new(config: &ServerConfig) -> Result<Self, Error> {
-        let mut client = RconClient::new(&config.host, config.rcon_port).await?;
-        client.authenticate(&config.rcon_password).await?;
-
-        Ok(Self {
+    pub fn new(config: &ServerConfig) -> Self {
+        Self {
             config: config.clone(),
-            client,
-        })
+        }
     }
 
     pub async fn nb_players(&self) -> Result<u32, Error> {
@@ -41,7 +35,10 @@ impl Server {
     }
 
     pub async fn stop(&mut self) -> Result<(), Error> {
-        self.client.run_command("stop").await?;
+        let mut client = RconClient::new(&self.config.host, self.config.rcon_port).await?;
+        client.authenticate(&self.config.rcon_password).await?;
+
+        client.run_command("stop").await?;
 
         Ok(())
     }
