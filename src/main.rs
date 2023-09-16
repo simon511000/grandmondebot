@@ -32,7 +32,6 @@ async fn main() -> Result<()> {
             commands: vec![
                 commands::start::start(),
                 commands::stop::stop(),
-                commands::reload_config::reload_config(),
             ],
             ..Default::default()
         })
