@@ -11,20 +11,10 @@ pub struct ServerConfig {
     pub rcon_password: String,
 }
 
-#[derive(Debug, Deserialize, Clone)]
-pub struct MqttConfig {
-    pub enabled: bool,
-    pub host: String,
-    pub port: u16,
-    pub username: Option<String>,
-    pub password: Option<String>,
-}
-
 #[derive(Debug, Deserialize)]
 pub struct Config {
     pub token: String,
     pub server: ServerConfig,
-    pub mqtt: MqttConfig,
 }
 
 impl Config {
